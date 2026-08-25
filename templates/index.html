@@ -21,6 +21,7 @@
   <script src="/assets/js/pyodide.js"></script>
   <script src="/assets/js/workspace.js"></script>
   <script src="/assets/js/pwa.js"></script>
+  <script>if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {}));</script>
   <div id="desktop-module"></div><div id="dock-module"></div><div id="status-module"></div><div id="wallpaper-module" hidden></div><div id="python-module" hidden></div><div id="media-module" hidden></div><div id="surface-module" hidden></div><div id="workspace-module" hidden></div><div id="files-module" hidden></div><div id="video-module" hidden></div>
   <script type="module">
     import { mount } from "/assets/static/js/App.js";

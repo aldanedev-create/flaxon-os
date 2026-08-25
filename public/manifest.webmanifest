@@ -25,4 +25,10 @@
   ],
   "display_override": ["window-controls-overlay", "standalone"],
   "categories": ["development", "education", "utilities"]
+  ,"shortcuts": [
+    { "name": "Study Files", "short_name": "Study", "description": "Open the local student file system", "url": "/?view=study", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Media Library", "short_name": "Media", "description": "Open local media assets", "url": "/?view=video", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Security Scanner", "short_name": "Scanner", "description": "Open the authorized security scanner", "url": "/?view=scanner", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Python Playground", "short_name": "Python", "description": "Open the browser Python playground", "url": "/?view=playground", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
 }
