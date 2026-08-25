@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from teloce.build.builder import Builder
-import shutil
 import os
 
 ROOT = Path(__file__).resolve().parent
@@ -19,19 +17,21 @@ def write_security_contact():
 
 
 def build_frontend():
-    generated = ROOT / "dist"
-    result = Builder({"dev": False, "source_maps": True, "clean": True}).build(ROOT, out_dir=generated)
-    if result["failed"]:
-        raise RuntimeError(f"Teloce build failed: {result['errors']}")
-    for item in result["files"]:
-        source = generated / item["output"]
-        if source.suffix in {".js", ".map", ".css"}:
-            target = ROOT / "public" / item["output"]
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, target)
+    # The generated bundle is checked in and is the deployment artifact.
+    # Rebuilding here with whichever teloce-py version Vercel happens to
+    # install can silently replace it with an older compiler/runtime.  Build
+    # locally with the project's pinned toolchain when .vel files change, then
+    # commit the resulting public/assets/static bundle.
+    required = [
+        ROOT / "public" / "assets" / "static" / "js" / "App.js",
+        ROOT / "public" / "assets" / "css" / "app.css",
+    ]
+    missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
+    if missing:
+        raise RuntimeError(f"Missing checked-in frontend artifacts: {', '.join(missing)}")
     write_security_contact()
-    print(f"Compiled {result['compiled']} Teloce component(s) into public/")
-    return result
+    print("Using checked-in Teloce frontend artifacts from public/assets/")
+    return {"compiled": 0, "failed": False, "files": [], "errors": []}
 
 
 if __name__ == "__main__":
