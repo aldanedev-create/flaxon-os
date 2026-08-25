@@ -1,11 +1,6 @@
 dist/
 testdist/
-node_modules/
-test-results/
-.venv/
 .pytest_cache/
 __pycache__/
 *.pyc
-*.log
-live-*.png
-responsive-*.png
+node_modules

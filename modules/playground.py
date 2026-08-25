@@ -19,6 +19,10 @@ def register_playground(app):
         source = str(data.get("source", ""))
         return check_python(source)
 
+    @app.get("/api/playground/python/check")
+    async def check_python_get(request: Request):
+        return check_python(str(request.query.get("source", "")))
+
     @app.post("/api/playground/run")
     async def run_playground(request: Request):
         return {"ok": False, "error": "Server-side code execution is disabled for this unauthenticated deployment."}

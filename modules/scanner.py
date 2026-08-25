@@ -152,10 +152,28 @@ def register_scanner(app):
         except Exception as error:
             return {"error": str(error), "url": url}
 
+    @app.get("/api/scanner/check")
+    async def scanner_get(request: Request):
+        url = str(request.query.get("url", ""))
+        crawl = request.query.get("crawl", "false").lower() in {"1", "true", "yes"}
+        try:
+            return await asyncio.to_thread(_scan, url, crawl)
+        except Exception as error:
+            return {"error": str(error), "url": url}
+
     @app.post("/api/scanner/attack-surface")
     async def attack_surface(request: Request):
         data = await request.json()
         url = str(data.get("url", ""))
+        try:
+            result = await asyncio.to_thread(_scan, url, True)
+            return {"url": result["url"], "host": result["host"], "pages": result["pages"], "links": result["links"], "headers": result["findings"], "scope": "same-origin public HTTP(S) links only"}
+        except Exception as error:
+            return {"error": str(error), "url": url}
+
+    @app.get("/api/scanner/attack-surface")
+    async def attack_surface_get(request: Request):
+        url = str(request.query.get("url", ""))
         try:
             result = await asyncio.to_thread(_scan, url, True)
             return {"url": result["url"], "host": result["host"], "pages": result["pages"], "links": result["links"], "headers": result["findings"], "scope": "same-origin public HTTP(S) links only"}

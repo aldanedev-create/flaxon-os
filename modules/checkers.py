@@ -42,3 +42,7 @@ def register_checkers(app):
     async def phishing(request: Request):
         data = await request.json()
         return analyze_url(str(data.get("url", "")))
+
+    @app.get("/api/checkers/phishing")
+    async def phishing_get(request: Request):
+        return analyze_url(str(request.query.get("url", "")))

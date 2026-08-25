@@ -173,11 +173,11 @@ test("workspace backup round-trips through IndexedDB", async ({ page }) => {
 });
 
 test("scanner findings render after an authorized scan response", async ({ page }) => {
-  await page.route("**/api/scanner/check", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ status: 200, pages: 1, findings: [{ key: "content-security-policy", name: "Content Security Policy", present: true }] }) }));
+  await page.route("**/api/scanner/attack-surface", route => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ host: "example.com", pages: 1, links: [], headers: [{ key: "content-security-policy", name: "Content Security Policy", present: true }] }) }));
   await page.goto("/");
   await page.getByRole("button", { name: "Scanner", exact: true }).click();
-  await page.getByRole("button", { name: "Analyze", exact: true }).click();
-  await expect(page.locator("body")).toContainText("Content Security Policy: present");
+  await page.getByRole("button", { name: "Map surface", exact: true }).click();
+  await expect(page.locator("body")).toContainText("Evidence collected");
 });
 
 test("video clip export records a real browser WebM stream", async ({ page }) => {

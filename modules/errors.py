@@ -57,3 +57,7 @@ def register_errors(app):
     async def solve(request: Request):
         data = await request.json()
         return solve_diagnostic(str(data.get("diagnostic", "")))
+
+    @app.get("/api/devtools/solve")
+    async def solve_get(request: Request):
+        return solve_diagnostic(str(request.query.get("diagnostic", "")))
