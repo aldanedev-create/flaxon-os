@@ -159,7 +159,9 @@ body.desktop-mode .top-actions .exit-button:hover { background:#c44b4bcc; }
 body.desktop-mode .external-app-window { width:min(1120px, calc(100vw - 160px)); height:calc(100vh - 90px); margin:0 auto; padding:12px; }
 body.desktop-mode .external-app-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 body.desktop-mode .external-app-heading h2 { margin:0; }
-body.desktop-mode .external-app-heading .button { flex:0 0 auto; text-decoration:none; }
+body.desktop-mode .external-app-tools { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:6px; }
+body.desktop-mode .external-app-tools > * { flex:0 0 auto; }
+body.desktop-mode .external-app-heading .button { text-decoration:none; }
 body.desktop-mode .external-app-frame { width:100%; flex:1 1 auto; min-height:0; border:1px solid #8db4d0; border-radius:4px; background:#fff; }
 body.desktop-mode .external-app-note { margin:0; font-size:12px; }
 body.desktop-mode .content { height:calc(100% - 38px); padding:14px 18px 18px 120px; }
@@ -199,4 +201,5 @@ body.desktop-mode .start-button { background:#0d70b8aa; border-color:#bce9ff55; 
   body.desktop-mode .external-app-window { width:auto; height:calc(100vh - 70px); margin:0; }
   body.desktop-mode .external-app-heading { align-items:flex-start; }
   body.desktop-mode .external-app-heading h2 { font-size:18px; }
+  body.desktop-mode .external-app-tools { width:100%; justify-content:flex-start; }
 }
