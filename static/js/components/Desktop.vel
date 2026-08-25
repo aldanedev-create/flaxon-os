@@ -10,7 +10,7 @@
     <div v-show="startOpen" class="start-menu">
       <div class="start-header"><strong>Flaxon OS</strong><button @click="closeStart">x</button></div>
       <input class="start-search" placeholder="Search apps and tools" :model="query" />
-      <div class="start-apps"><button v-for="app in filteredApps" :key="app.id" class="start-app" data-view="{{ app.id }}" @click="launch"><span class="app-tile">{{ app.short }}</span><span>{{ app.name }}</span></button></div>
+      <div class="start-apps"><button v-for="app in filteredApps" :key="app.id" class="start-app" data-view="{{ app.id }}" @click="launch($event)"><span class="app-tile">{{ app.short }}</span><span>{{ app.name }}</span></button></div>
       <div class="start-footer"><span>Local device</span><button @click="open('home')">Settings</button></div>
     </div>
   </div>
