@@ -105,6 +105,17 @@ body.desktop-mode .window { border-radius:22px; border-color:#55e0c044; box-shad
 .surface-summary span { padding:8px 10px; border:1px solid var(--line); border-radius:7px; background:var(--panel2); }
 code { color:#b7f7d4; overflow-wrap:anywhere; }
 .video-editor { max-width:1100px; margin:18px auto; }
+.study-toolbar { display:flex; align-items:center; gap:8px; padding:8px; border:1px solid var(--line); border-radius:8px; background:var(--panel2); }
+.document-title { max-width:360px; font-weight:600; }
+.document-editor { overflow:hidden; border:1px solid var(--line); border-radius:8px; background:#fff; }
+.document-toolbar { display:flex; justify-content:space-between; padding:9px 12px; border-bottom:1px solid #d7e0e8; background:#f5f7f9; color:#46627b; }
+.document-editor .file-editor { display:block; width:100%; min-height:360px; margin:0; border:0; border-radius:0; resize:vertical; color:#172b3d; background:#fff; font:16px/1.7 Georgia,serif; padding:34px 42px; outline:none; }
+.study-message { min-height:1.5em; }
+.file-open { display:grid; flex:1; gap:3px; padding:0; text-align:left; border:0; background:transparent; color:inherit; }
+.file-open:hover { background:transparent; border-color:transparent; }
+@media(min-width:1101px) and (min-height:650px) { body.desktop-mode #media-module { left:140px; right:auto; width:270px; z-index:25; } body.desktop-mode #video-module { left:430px; right:36px; z-index:20; } }
+@media(max-width:1100px) and (min-width:801px) { body.desktop-mode #media-module { left:18px; right:auto; width:260px; z-index:25; } body.desktop-mode #video-module { left:300px; right:18px; z-index:20; } }
+@media(max-width:800px) { .study-toolbar { flex-wrap:wrap; } .document-title { max-width:none; flex:1 1 100%; } .document-editor .file-editor { min-height:280px; padding:20px; } body.desktop-mode #media-module { left:8px; right:8px; top:68px; bottom:auto; max-height:220px; z-index:25; } body.desktop-mode #video-module { left:8px; right:8px; top:300px; bottom:66px; z-index:20; } }
 .editor-heading,.editor-controls,.time-row { display:flex; align-items:center; gap:12px; justify-content:space-between; }
 .editor-heading h2 { margin-bottom:0; }
 .editor-preview { width:100%; max-height:520px; background:#03060b; border-radius:10px; }

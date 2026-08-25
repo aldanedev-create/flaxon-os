@@ -1,10 +1,10 @@
 <template>
   <section class="window stack study-files">
     <div class="editor-heading"><div><h2>Student file system</h2><p class="muted">A private folder in this browser for notes, code, datasets, and project files.</p></div><button @click="refresh">Refresh</button></div>
-    <div class="row"><label class="button"><input type="file" multiple @change="importFiles" hidden />Add files</label><button @click="saveText">Save text file</button><input :model="newName" placeholder="new-file.txt" /></div>
-    <textarea class="code file-editor" :model="newContent" placeholder="Write a text file for your study workspace..."></textarea>
+    <div class="study-toolbar"><label class="button"><input type="file" multiple @change="importFiles" hidden />Add files</label><input class="document-title" v-model="newName" placeholder="Untitled document" /><button @click="saveText">Save</button></div>
+    <div class="document-editor"><div class="document-toolbar"><span class="muted">Local document</span><span class="muted">{{ newContent.length }} characters</span></div><textarea class="file-editor" v-model="newContent" placeholder="Start writing your study notes..."></textarea></div>
     <div class="file-list"><div v-if="!files.length" class="empty-state">No files yet. Add a file or save your first text note.</div><article v-for="file in files" :key="file.id" class="file-item"><div><strong>{{ file.name }}</strong><span class="muted">{{ file.size }} bytes · {{ file.type || 'text/plain' }}</span></div><div class="row file-actions"><button @click="download(file.id)">Download</button><button @click="remove(file.id)">Delete</button></div></article></div>
-    <p class="muted">Files stay in IndexedDB and are included in workspace backups. There is no account or server upload.</p>
+    <p class="muted">{{ message }}</p><p class="muted">Files stay in IndexedDB and are included in workspace backups. There is no account or server upload.</p>
   </section>
 </template>
 <script>
@@ -14,7 +14,8 @@ export default {
   methods: {
     async refresh() { this.files = await window.FlxonOS.db.list("files"); },
     async importFiles(event) { const selected = [...(event.target.files || [])]; for (const [index, file] of selected.entries()) { if (file.size > 25 * 1024 * 1024) continue; await window.FlxonOS.db.put("files", { id: "file-" + Date.now() + "-" + index, name: file.name, type: file.type, size: file.size, blob: file, updatedAt: new Date().toISOString() }); } await this.refresh(); event.target.value = ""; },
-    async saveText() { const name = this.newName.trim() || "study-note.txt"; const blob = new Blob([this.newContent], { type: "text/plain" }); await window.FlxonOS.db.put("files", { id: "file-" + Date.now(), name, type: blob.type, size: blob.size, blob, updatedAt: new Date().toISOString() }); this.newContent = ""; await this.refresh(); },
+    async saveText() { const name = this.newName.trim() || "study-note.txt"; const existing = this.files.find(file => file.name === name); const blob = new Blob([this.newContent], { type: "text/plain" }); await window.FlxonOS.db.put("files", { id: existing?.id || "file-" + Date.now(), name, type: blob.type, size: blob.size, blob, updatedAt: new Date().toISOString() }); this.message = "Saved locally."; await this.refresh(); },
+    async open(id) { const file = await window.FlxonOS.db.get("files", id); if (!file?.blob) return; if (file.type && !file.type.startsWith("text/") && !file.name.match(/\.(md|txt|json|py|js|css|html|csv)$/i)) { this.message = "This file can be downloaded but is not editable as text."; return; } this.newName = file.name; this.newContent = await file.blob.text(); this.message = "Opened " + file.name + "."; },
     async download(id) { const file = await window.FlxonOS.db.get("files", id); if (!file?.blob) return; const link = document.createElement("a"); link.href = URL.createObjectURL(file.blob); link.download = file.name; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 0); },
     async remove(id) { await window.FlxonOS.db.delete("files", id); await this.refresh(); }
   }
