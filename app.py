@@ -23,7 +23,7 @@ app.add_middleware(RateLimitMiddleware, requests=int(os.getenv("FLAXON_REQUESTS_
 app.add_middleware(SecurityHeadersMiddleware, headers={
     "referrer-policy": "no-referrer",
     "permissions-policy": "camera=(self), microphone=(self), geolocation=()",
-    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob:; frame-src 'self' blob: https://websheild-real-scan.onrender.com https://happy-study-3d.vercel.app; object-src 'none'; base-uri 'self'; form-action 'self'",
 })
 configured_hosts = [item.strip() for item in os.getenv("FLAXON_TRUSTED_HOSTS", "").split(",") if item.strip()]
 if configured_hosts:
