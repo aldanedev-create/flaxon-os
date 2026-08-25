@@ -4,3 +4,7 @@ testdist/
 __pycache__/
 *.pyc
 node_modules
+.vercel/
+test-results/
+live-*.png
+responsive-*.png
