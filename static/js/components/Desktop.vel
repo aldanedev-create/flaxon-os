@@ -6,6 +6,8 @@
       <button class="desktop-icon" @click="open('playground')"><span class="desktop-icon-glyph">PY</span><span>Python</span></button>
       <button class="desktop-icon" @click="open('scanner')"><span class="desktop-icon-glyph">SC</span><span>Scanner</span></button>
       <button class="desktop-icon" @click="open('video')"><span class="desktop-icon-glyph">VI</span><span>Video Studio</span></button>
+      <button class="desktop-icon" @click="openExternal('WebShield', 'https://websheild-real-scan.onrender.com/')"><span class="desktop-icon-glyph">WS</span><span>WebShield</span></button>
+      <button class="desktop-icon" @click="openExternal('Happy Study 3D', 'https://happy-study-3d.vercel.app/')"><span class="desktop-icon-glyph">HS</span><span>Happy Study</span></button>
     </div>
     <div v-show="startOpen" class="start-menu">
       <div class="start-header"><strong>Flaxon OS</strong><button @click="closeStart">x</button></div>
@@ -17,9 +19,9 @@
 </template>
 <script>
 export default {
-  data() { return { startOpen: false, query: "", apps: [{ id: "home", name: "Home", short: "OS" }, { id: "network", name: "Bandwidth Monitor", short: "NW" }, { id: "scanner", name: "Security Scanner", short: "SC" }, { id: "playground", name: "Python Playground", short: "PY" }, { id: "study", name: "Study Workspace", short: "ST" }, { id: "video", name: "Video Studio", short: "VI" }, { id: "errors", name: "Error Solver", short: "ER" }] }; },
+  data() { return { startOpen: false, query: "", apps: [{ id: "home", name: "Home", short: "OS" }, { id: "network", name: "Bandwidth Monitor", short: "NW" }, { id: "scanner", name: "Security Scanner", short: "SC" }, { id: "playground", name: "Python Playground", short: "PY" }, { id: "study", name: "Study Workspace", short: "ST" }, { id: "video", name: "Video Studio", short: "VI" }, { id: "errors", name: "Error Solver", short: "ER" }, { id: "webshield", name: "WebShield scanner", short: "WS", url: "https://websheild-real-scan.onrender.com/" }, { id: "happy-study", name: "Happy Study 3D", short: "HS", url: "https://happy-study-3d.vercel.app/" }] }; },
   computed: { filteredApps() { const query = this.query.trim().toLowerCase(); return query ? this.apps.filter(app => app.name.toLowerCase().includes(query)) : this.apps; } },
   mounted() { window.addEventListener("flaxon:start", () => { this.startOpen = !this.startOpen; }); },
-  methods: { open(view) { this.startOpen = false; window.dispatchEvent(new CustomEvent("flaxon:navigate", { detail: view })); }, launch(event) { const view = event?.currentTarget?.dataset?.view; if (view) this.open(view); }, closeStart() { this.startOpen = false; } }
+  methods: { open(view) { this.startOpen = false; window.dispatchEvent(new CustomEvent("flaxon:navigate", { detail: view })); }, openExternal(title, url) { this.startOpen = false; window.dispatchEvent(new CustomEvent("flaxon:external", { detail: { title, url } })); }, launch(event) { const view = event?.currentTarget?.dataset?.view; const app = this.apps.find(item => item.id === view); if (app?.url) this.openExternal(app.name, app.url); else if (view) this.open(view); }, closeStart() { this.startOpen = false; } }
 };
 </script>
