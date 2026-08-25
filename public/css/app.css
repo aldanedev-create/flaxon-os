@@ -153,6 +153,8 @@ body.desktop-mode .top-actions button:first-of-type { display:none; }
 body.desktop-mode .top-actions button { display:block; color:#fff; background:#075b98cc; border-color:#b9e7ff66; box-shadow:0 2px 8px #003c6755; }
 body.desktop-mode .top-actions { justify-content:flex-end; }
 body.desktop-mode .top-actions button { background:#0a5fa0aa; border-color:#9dd8ff55; padding:4px 8px; }
+body.desktop-mode .top-actions .exit-button { background:#a83b3bcc; border-color:#ffb2a888; color:#fff; }
+body.desktop-mode .top-actions .exit-button:hover { background:#c44b4bcc; }
 body.desktop-mode .content { height:calc(100% - 38px); padding:14px 18px 18px 120px; }
 body.desktop-mode .content > div:first-child { display:block; }
 body.desktop-mode .content > div:not(:first-child) { max-width:1100px; margin:0 auto; }

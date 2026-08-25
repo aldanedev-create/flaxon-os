@@ -13,7 +13,7 @@
       </nav>
     </aside>
     <section class="workspace">
-      <header class="topbar"><strong>{{ title }}</strong><div class="row top-actions"><span class="muted">{{ status }}</span><button @click="installApp">Install</button><button @click="toggleWallpapers">Appearance</button><button class="window-control" @click="minimizeWindow">_</button><button class="window-control" @click="maximizeWindow">[]</button></div></header>
+      <header class="topbar"><strong>{{ title }}</strong><div class="row top-actions"><span class="muted">{{ status }}</span><button @click="installApp">Install</button><button @click="toggleWallpapers">Appearance</button><button v-show="view !== 'home'" class="exit-button" @click="exitPage">Exit</button><button class="window-control" @click="minimizeWindow">_</button><button class="window-control" @click="maximizeWindow">[]</button></div></header>
       <main class="content">
         <div v-show="view === 'home'">
           <section class="window"><h2>Workspace overview</h2><p class="muted">A local-first developer and study workspace. Your notes and recordings remain in this browser.</p><div class="grid"><div class="stat"><strong>{{ metrics.windows }}</strong><span class="muted">Open tools</span></div><div class="stat"><strong>{{ metrics.notes }}</strong><span class="muted">Local notes</span></div><div class="stat"><strong>{{ metrics.online }}</strong><span class="muted">Network status</span></div></div></section>
@@ -37,6 +37,7 @@ export default {
     toggleWallpapers() { const panel = document.querySelector("#wallpaper-module"); if (panel) panel.hidden = !panel.hidden; },
     setModuleVisibility(view) { const visible = { "python-module": view === "playground", "surface-module": false, "files-module": view === "study", "media-module": view === "video", "video-module": view === "video", "workspace-module": false }; for (const [id, show] of Object.entries(visible)) { const host = document.getElementById(id); if (host) host.hidden = !show; } const content = document.querySelector(".content"); if (content) content.hidden = view === "video"; },
     open(view) { if (!view) return; this.windowMinimized = false; document.querySelector(".workspace")?.classList.remove("window-minimized"); this.view = view; document.body.dataset.view = view; this.title = view.charAt(0).toUpperCase() + view.slice(1); this.setModuleVisibility(view); window.FlxonOS.windows.open(view); this.metrics.windows = window.FlxonOS.windows.list().length; },
+    exitPage() { this.open("home"); },
     minimizeWindow() { this.windowMinimized = true; document.querySelector(".workspace")?.classList.add("window-minimized"); },
     maximizeWindow() { this.windowMaximized = !this.windowMaximized; document.body.classList.toggle("window-maximized", this.windowMaximized); },
     async loadNotes() { this.notes = await window.FlxonOS.db.list("notes"); this.metrics.notes = this.notes.length; },
