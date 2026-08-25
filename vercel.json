@@ -4,8 +4,7 @@
     "api/**/*.py": { "maxDuration": 30 }
   },
   "rewrites": [
-    { "source": "/assets/:path*", "destination": "/:path*" },
-    { "source": "/api/:path*", "destination": "/api/index.py" }
+    { "source": "/assets/:path*", "destination": "/:path*" }
   ],
   "headers": [
     {
