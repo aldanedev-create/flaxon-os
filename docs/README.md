@@ -1,5 +1,10 @@
 # Flaxon OS documentation
 
+## Start here
+
+- [Production build proof](production-build-proof.md) — what the deployed Flaxon OS demonstrates about `.vel`, Teloce, Flaxon, PWA support, and Windows packaging.
+- [Build a similar application](build-a-similar-app.md) — a complete path from a new Python project to a compiled `.vel` frontend, local storage, PWA, deployment, and MSIX packaging.
+
 Flaxon OS is a local-first, installable workspace built with Flaxon on the server and Teloce `.vel` components in the browser. It is designed to run with a single Python entry point while keeping user notes and recordings in the browser’s IndexedDB.
 
 ## Run it
@@ -69,4 +74,4 @@ The interface is intentionally split into independently compiled components:
 - `static/js/components/AttackSurface.vel` — authorized same-origin attack-surface mapping UI.
 - `static/js/components/WorkspaceTools.vel` — local workspace export/import controls.
 
-`python build.py` compiles all nine `.vel` components into `public/static/js/`; `component-loader.js` mounts the supporting components into the OS shell.
+`python build.py` compiles all ten `.vel` components into `public/static/js/`; `component-loader.js` mounts the supporting components into the OS shell.
