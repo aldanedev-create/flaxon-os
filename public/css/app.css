@@ -141,6 +141,7 @@ body { padding-bottom:64px; }
    Start menu, desktop shortcuts, and taskbar. */
 :root { --wallpaper: linear-gradient(135deg,#087bc4 0%,#0b9bd8 42%,#0753a5 100%); --taskbar:#092f5bdd; --taskbar-line:#65b9e866; }
 body.desktop-mode { overflow:hidden; background:#087bc4; color:#f5fbff; }
+body.desktop-mode [hidden] { display:none !important; }
 body.desktop-mode::before { background:var(--wallpaper); background-size:cover; background-position:center; }
 body.desktop-mode .shell { padding:0 0 44px; min-height:100vh; }
 body.desktop-mode .sidebar { display:none; }
