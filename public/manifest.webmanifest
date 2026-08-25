@@ -1,0 +1,22 @@
+{
+  "name": "Flaxon OS",
+  "short_name": "Flaxon OS",
+  "id": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "description": "Local-first developer, security, network, and study workspace",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "prefer_related_applications": false,
+  "background_color": "#0b1220",
+  "theme_color": "#101827",
+  "icons": [
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "display_override": ["window-controls-overlay", "standalone"],
+  "categories": ["development", "education", "utilities"]
+}

@@ -1,0 +1,14 @@
+(function () {
+  const DB_NAME = "flaxon-os";
+  const DB_VERSION = 3;
+  const stores = ["notes", "recordings", "workspace", "media", "files"];
+  function openDb() { return new Promise((resolve, reject) => { const request = indexedDB.open(DB_NAME, DB_VERSION); request.onupgradeneeded = () => stores.forEach(name => { if (!request.result.objectStoreNames.contains(name)) request.result.createObjectStore(name, { keyPath: "id", autoIncrement: true }); }); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }
+  async function transaction(store, mode, callback) { const db = await openDb(); return new Promise((resolve, reject) => { const tx = db.transaction(store, mode); const result = callback(tx.objectStore(store)); tx.oncomplete = () => resolve(result); tx.onerror = () => reject(tx.error); }); }
+  const db = { async list(store) { const dbx = await openDb(); return new Promise((resolve, reject) => { const request = dbx.transaction(store).objectStore(store).getAll(); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }, async get(store, id) { const dbx = await openDb(); return new Promise((resolve, reject) => { const request = dbx.transaction(store).objectStore(store).get(id); request.onsuccess = () => resolve(request.result || null); request.onerror = () => reject(request.error); }); }, async put(store, value) { return transaction(store, "readwrite", objectStore => objectStore.put(value)); }, async delete(store, id) { return transaction(store, "readwrite", objectStore => objectStore.delete(id)); } };
+  let savedWindows = [];
+  try { savedWindows = JSON.parse(localStorage.getItem("flaxon-windows") || "[]"); } catch (error) { savedWindows = []; }
+  const windows = new Map(Array.isArray(savedWindows) ? savedWindows : []);
+  const emit = () => { localStorage.setItem("flaxon-windows", JSON.stringify([...windows.entries()])); window.dispatchEvent(new CustomEvent("flaxon:windows", { detail: manager.list() })); };
+  const manager = { open(name, options) { const current = windows.get(name) || { name, minimized: false, maximized: false, z: Date.now() }; windows.set(name, { ...current, ...options, name, minimized: false, z: Date.now() }); emit(); return windows.get(name); }, close(name) { windows.delete(name); emit(); }, minimize(name) { if (windows.has(name)) { windows.get(name).minimized = true; emit(); } }, maximize(name) { if (windows.has(name)) { windows.get(name).maximized = !windows.get(name).maximized; emit(); } }, focus(name) { if (windows.has(name)) { windows.get(name).z = Date.now(); emit(); } }, isOpen(name) { return windows.has(name); }, get(name) { return windows.get(name) || null; }, list() { return [...windows.values()].sort((a, b) => a.z - b.z); }, reset() { windows.clear(); emit(); } };
+  window.FlxonOS = { db, windows: manager, version: "0.1.0" };
+})();

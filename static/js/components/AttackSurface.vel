@@ -1,0 +1,16 @@
+<template>
+  <section class="window stack attack-surface">
+    <div class="editor-heading"><div><h2>Attack surface</h2><p class="muted">Same-origin public link inventory for authorized review.</p></div><div class="row"><button @click="scan">Map surface</button><button v-if="result" @click="downloadReport">Export JSON</button></div></div>
+    <div class="row"><input :model="url" placeholder="https://example.com" /></div>
+    <p v-if="error" class="danger">{{ error }}</p>
+    <div v-if="result" class="surface-summary"><span>{{ result.host }}</span><span>{{ result.pages }} page(s)</span><span>{{ result.links.length }} link(s)</span></div>
+    <ul v-if="result"><li v-for="link in result.links" :key="link"><code>{{ link }}</code></li></ul>
+    <p class="muted">{{ message }}</p>
+  </section>
+</template>
+<script>
+export default {
+  data() { return { url: "https://example.com", result: null, error: "", message: "Only public HTTP(S) same-origin links are included." }; },
+  methods: { async scan() { this.error = ""; this.result = null; this.message = "Mapping..."; try { const response = await fetch("/api/scanner/attack-surface", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: this.url }) }); const data = await response.json(); if (data.error) throw new Error(data.error); this.result = data; this.message = "Evidence collected. This is not an exploitation verdict."; } catch (error) { this.error = error.message; this.message = ""; } }, downloadReport() { const blob = new Blob([JSON.stringify(this.result, null, 2)], { type: "application/json" }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "flaxon-attack-surface.json"; link.click(); URL.revokeObjectURL(link.href); } }
+};
+</script>

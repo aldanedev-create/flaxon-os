@@ -1,0 +1,2 @@
+flaxon[standard]>=0.2,<1
+teloce-py>=0.2.0b1

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="A local-first developer, network, security, and study workspace.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: blob:; media-src 'self' blob:; frame-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <title>{{ title }}</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="/assets/js/os-core.js"></script>
+  <script src="/assets/js/media.js"></script>
+  <script src="/assets/js/wallpapers.js"></script>
+  <script src="/assets/js/pyodide.js"></script>
+  <script src="/assets/js/workspace.js"></script>
+  <script src="/assets/js/pwa.js"></script>
+  <div id="desktop-module"></div><div id="dock-module"></div><div id="status-module"></div><div id="wallpaper-module" hidden></div><div id="python-module" hidden></div><div id="media-module" hidden></div><div id="surface-module" hidden></div><div id="workspace-module" hidden></div><div id="files-module" hidden></div><div id="video-module" hidden></div>
+  <script type="module">
+    import { mount } from "/assets/static/js/App.js";
+    mount("#app");
+  </script>
+  <script type="module" src="/assets/js/component-loader.js"></script>
+</body>
+</html>

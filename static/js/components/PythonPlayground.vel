@@ -1,0 +1,13 @@
+<template>
+  <section class="window stack python-studio">
+    <div class="editor-heading"><div><h2>Python workspace</h2><p class="muted">Runs in a Pyodide Web Worker inside your browser.</p></div><div class="row"><button @click="run">Run</button><button @click="stop">Stop</button></div></div>
+    <textarea class="code" :model="source"></textarea>
+    <pre class="terminal">{{ output }}</pre>
+  </section>
+</template>
+<script>
+export default {
+  data() { return { source: "print('Hello from Pyodide')\n2 + 2", output: "Ready. The first run downloads the pinned Pyodide runtime and may take up to 180 seconds.", timeoutMs: 180000, running: false }; },
+  methods: { async run() { if (this.running) return; this.running = true; this.output = "Starting Python... the first run downloads Pyodide."; try { const result = await window.FlxonOS.python.run(this.source, { timeoutMs: this.timeoutMs }); this.output = result.ok ? result.output || "(no output)" : "Error: " + result.error; } finally { this.running = false; } }, stop() { window.FlxonOS.python.stop(); this.running = false; this.output = "Execution stopped."; } }
+};
+</script>

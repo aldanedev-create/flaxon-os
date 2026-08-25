@@ -1,0 +1,20 @@
+<template>
+  <section class="wallpaper-panel window stack">
+    <div class="editor-heading"><div><h2>Appearance</h2><p class="muted">Choose a local desktop wallpaper.</p></div><button @click="close">Close</button></div>
+    <div class="wallpaper-grid">
+      <button class="wallpaper-card" :class="{ selected: selected === 'default' }" data-wallpaper="default" @click="choose('default')"><span>Default CSS</span></button>
+      <button class="wallpaper-card" :class="{ selected: selected === 'aurora' }" data-wallpaper="aurora" @click="choose('aurora')"><span>Aurora</span></button>
+      <button class="wallpaper-card" :class="{ selected: selected === 'ocean' }" data-wallpaper="ocean" @click="choose('ocean')"><span>Deep ocean</span></button>
+      <button class="wallpaper-card" :class="{ selected: selected === 'dusk' }" data-wallpaper="dusk" @click="choose('dusk')"><span>Violet dusk</span></button>
+      <button class="wallpaper-card" :class="{ selected: selected === 'sunrise' }" data-wallpaper="sunrise" @click="choose('sunrise')"><span>Solar sunrise</span></button>
+      <button class="wallpaper-card" :class="{ selected: selected === 'graphite' }" data-wallpaper="graphite" @click="choose('graphite')"><span>Graphite</span></button>
+    </div>
+    <p class="muted">{{ message }}</p>
+  </section>
+</template>
+<script>
+export default {
+  data() { return { selected: "default", message: "Wallpaper is saved on this device.", wallpapers: [{ id: "default", name: "Default CSS" }, { id: "aurora", name: "Aurora" }, { id: "ocean", name: "Deep ocean" }, { id: "dusk", name: "Violet dusk" }, { id: "sunrise", name: "Solar sunrise" }, { id: "graphite", name: "Graphite" }] }; },
+  methods: { choose(id) { this.selected = id; window.FlxonOS.wallpapers.apply(id); this.message = "Saved locally."; }, close() { window.dispatchEvent(new CustomEvent("flaxon:close-wallpapers")); } }
+};
+</script>

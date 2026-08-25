@@ -1,0 +1,13 @@
+<template>
+  <section class="window stack workspace-tools">
+    <div class="editor-heading"><div><h2>Workspace backup</h2><p class="muted">Export or restore this device-local workspace.</p></div><span class="muted">No account required</span></div>
+    <div class="row"><button @click="download">Export backup</button><label class="button"><input type="file" accept="application/json,.json" @change="restore" hidden />Import backup</label><button @click="reset">Reset local workspace</button></div>
+    <p class="muted">{{ message }}</p>
+  </section>
+</template>
+<script>
+export default {
+  data() { return { message: "Backups may contain recordings and media; keep them private." }; },
+  methods: { async download() { try { const blob = await window.FlxonOS.workspace.export(); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "flaxon-workspace-" + new Date().toISOString().slice(0, 10) + ".json"; link.click(); URL.revokeObjectURL(link.href); this.message = "Workspace backup downloaded."; } catch (error) { this.message = error.message; } }, async restore(event) { const file = event.target.files && event.target.files[0]; if (!file) return; try { await window.FlxonOS.workspace.import(file); this.message = "Workspace restored. Reloading local modules..."; setTimeout(() => location.reload(), 250); } catch (error) { this.message = error.message; } }, async reset() { if (!window.confirm("Delete all local notes, recordings, media, and student files?")) return; for (const store of ["notes", "recordings", "workspace", "media", "files"]) for (const item of await window.FlxonOS.db.list(store)) await window.FlxonOS.db.delete(store, item.id); this.message = "Local workspace reset."; } }
+};
+</script>

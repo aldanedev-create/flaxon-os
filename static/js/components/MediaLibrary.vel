@@ -1,0 +1,44 @@
+<template>
+  <section class="window stack media-library">
+    <div class="editor-heading"><div><h2>Media library</h2><p class="muted">Local media assets used by Flaxon Studio.</p></div><button @click="refresh">Refresh</button></div>
+    <div class="media-list"></div>
+    <p class="muted">{{ message }}</p>
+  </section>
+</template>
+<script>
+export default {
+  data() { return { items: [], message: "Media stays on this device." }; },
+  mounted() { this.refresh(); window.addEventListener("flaxon:media-changed", this.refresh); },
+  beforeUnmount() { window.removeEventListener("flaxon:media-changed", this.refresh); },
+  updated() {
+    const list = document.querySelector("#media-module .media-list");
+    if (!list) return;
+    list.replaceChildren();
+    if (!this.items.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.textContent = "Import a video in Flaxon Studio to create your first local asset.";
+      list.append(empty);
+      return;
+    }
+    this.items.forEach(item => {
+      const article = document.createElement("article");
+      article.className = "media-item";
+      const details = document.createElement("div");
+      const name = document.createElement("strong");
+      name.textContent = item.name || "Untitled asset";
+      const meta = document.createElement("span");
+      meta.className = "muted";
+      meta.textContent = (item.type || "application/octet-stream") + " · " + this.formatSize(item.size);
+      details.append(name, meta);
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Remove";
+      remove.addEventListener("click", () => this.remove(item.id));
+      article.append(details, remove);
+      list.append(article);
+    });
+  },
+  methods: { async refresh() { this.items = await window.FlxonOS.db.list("media"); }, formatSize(size) { const value = Number(size || 0); return value < 1048576 ? Math.round(value / 1024) + " KB" : (value / 1048576).toFixed(1) + " MB"; }, async remove(id) { await window.FlxonOS.db.delete("media", id); this.message = "Asset removed locally."; await this.refresh(); } }
+};
+</script>

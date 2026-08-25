@@ -1,0 +1,25 @@
+<template>
+  <div class="desktop-layer">
+    <div class="desktop-icons">
+      <button class="desktop-icon" @click="open('home')"><span class="desktop-icon-glyph">OS</span><span>Home</span></button>
+      <button class="desktop-icon" @click="open('study')"><span class="desktop-icon-glyph">ST</span><span>Study files</span></button>
+      <button class="desktop-icon" @click="open('playground')"><span class="desktop-icon-glyph">PY</span><span>Python</span></button>
+      <button class="desktop-icon" @click="open('scanner')"><span class="desktop-icon-glyph">SC</span><span>Scanner</span></button>
+      <button class="desktop-icon" @click="open('video')"><span class="desktop-icon-glyph">VI</span><span>Video Studio</span></button>
+    </div>
+    <div v-show="startOpen" class="start-menu">
+      <div class="start-header"><strong>Flaxon OS</strong><button @click="closeStart">x</button></div>
+      <input class="start-search" placeholder="Search apps and tools" :model="query" />
+      <div class="start-apps"><button v-for="app in filteredApps" :key="app.id" class="start-app" @click="launch(app.id)"><span class="app-tile">{{ app.short }}</span><span>{{ app.name }}</span></button></div>
+      <div class="start-footer"><span>Local device</span><button @click="open('home')">Settings</button></div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() { return { startOpen: false, query: "", apps: [{ id: "home", name: "Home", short: "OS" }, { id: "network", name: "Bandwidth Monitor", short: "NW" }, { id: "scanner", name: "Security Scanner", short: "SC" }, { id: "playground", name: "Python Playground", short: "PY" }, { id: "study", name: "Study Workspace", short: "ST" }, { id: "video", name: "Video Studio", short: "VI" }, { id: "errors", name: "Error Solver", short: "ER" }] }; },
+  computed: { filteredApps() { const query = this.query.trim().toLowerCase(); return query ? this.apps.filter(app => app.name.toLowerCase().includes(query)) : this.apps; } },
+  mounted() { window.addEventListener("flaxon:start", () => { this.startOpen = !this.startOpen; }); },
+  methods: { open(view) { this.startOpen = false; window.dispatchEvent(new CustomEvent("flaxon:navigate", { detail: view })); }, launch(view) { this.open(view); }, closeStart() { this.startOpen = false; } }
+};
+</script>

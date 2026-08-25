@@ -1,0 +1,12 @@
+<template>
+  <footer class="status-bar"><span>Flaxon OS</span><span>{{ message }}</span><span>{{ clock }}</span></footer>
+</template>
+<script>
+let statusTimer = null;
+export default {
+  data() { return { message: "Ready", clock: "" }; },
+  mounted() { statusTimer = setInterval(() => this.tick(), 1000); },
+  beforeUnmount() { clearInterval(statusTimer); statusTimer = null; },
+  methods: { tick() { this.clock = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); } }
+};
+</script>

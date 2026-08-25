@@ -1,0 +1,26 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/**/*.py": { "maxDuration": 30 }
+  },
+  "rewrites": [
+    { "source": "/assets/:path*", "destination": "/:path*" },
+    { "source": "/api/:path*", "destination": "/api/index.py" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "Permissions-Policy", "value": "camera=(self), microphone=(self), geolocation=()" }
+      ]
+    },
+    {
+      "source": "/(sw.js|manifest.webmanifest|offline.html)",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+    }
+  ],
+  "buildCommand": "python build.py"
+}

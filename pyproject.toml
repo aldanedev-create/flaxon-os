@@ -1,0 +1,15 @@
+[project]
+name = "flaxon-os"
+version = "0.1.0"
+description = "Local-first developer, security, network, and study workspace built with Flaxon and Teloce"
+requires-python = ">=3.11"
+dependencies = [
+  "flaxon[standard]>=0.2,<1",
+  "teloce-py>=0.2.0b1",
+]
+
+[project.scripts]
+flaxon-os = "cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

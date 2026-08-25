@@ -1,0 +1,15 @@
+<template>
+  <div class="os-dock">
+    <button class="dock-item start-button" aria-label="Start" @click="start()"><span class="start-mark">F</span><span>Launcher</span></button>
+    <button class="dock-item" @click="go('home')">Home</button>
+    <button class="dock-item" @click="go('network')">Pulse</button>
+    <button class="dock-item" @click="go('video')">Studio</button>
+    <button class="dock-item" @click="go('study')">Study</button>
+  </div>
+</template>
+<script>
+export default {
+  data() { return {}; },
+  methods: { go(view) { window.dispatchEvent(new CustomEvent("flaxon:navigate", { detail: view })); }, start() { window.dispatchEvent(new CustomEvent("flaxon:start")); } }
+};
+</script>
