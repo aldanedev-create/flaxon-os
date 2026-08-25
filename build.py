@@ -23,8 +23,8 @@ def build_frontend():
     # locally with the project's pinned toolchain when .vel files change, then
     # commit the resulting public/assets/static bundle.
     required = [
-        ROOT / "public" / "assets" / "static" / "js" / "App.js",
-        ROOT / "public" / "assets" / "css" / "app.css",
+        ROOT / "public" / "static" / "js" / "App.js",
+        ROOT / "public" / "css" / "app.css",
     ]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:
