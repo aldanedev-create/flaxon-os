@@ -138,7 +138,10 @@ body.desktop-mode .sidebar { display:none; }
 body.desktop-mode .workspace { height:calc(100vh - 44px); border:0; border-radius:0; background:transparent; box-shadow:none; }
 body.desktop-mode .topbar { height:38px; padding:0 12px; background:transparent; border:0; }
 body.desktop-mode .topbar strong, body.desktop-mode .topbar .muted { display:none; }
-body.desktop-mode .top-actions { display:none; }
+body.desktop-mode .top-actions { display:flex; position:fixed; top:5px; right:8px; z-index:200; gap:4px; }
+body.desktop-mode .top-actions .window-control { display:none; }
+body.desktop-mode .top-actions button:first-of-type { display:none; }
+body.desktop-mode .top-actions button { display:block; color:#fff; background:#075b98cc; border-color:#b9e7ff66; box-shadow:0 2px 8px #003c6755; }
 body.desktop-mode .top-actions { justify-content:flex-end; }
 body.desktop-mode .top-actions button { background:#0a5fa0aa; border-color:#9dd8ff55; padding:4px 8px; }
 body.desktop-mode .content { height:calc(100% - 38px); padding:14px 18px 18px 120px; }
